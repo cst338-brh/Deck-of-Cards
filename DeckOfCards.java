@@ -7,10 +7,9 @@
  */
 public class DeckOfCards {
 
-   public static void main(String[] args) {
-      // TODO Auto-generated method stub
-      
+   public static void main(String[] args) {      
       // Test Card class
+      System.out.println("/* ----- Card class testing ----- */");
       Card card1 = new Card();                      // Default constructor
       Card card2 = new Card('4',Card.Suit.CLUBS);   // Other constructor
       Card card3 = new Card('Y',Card.Suit.HEARTS);  // Invalid value
@@ -22,6 +21,15 @@ public class DeckOfCards {
       System.out.println(card1.toString());
       System.out.println(card2.toString());
       System.out.println(card3.toString());
+      System.out.println("*/ ------------------------------ */");
+      
+      // Phase 2
+      Hand hand1 = new Hand();
+      card1 = new Card('4',Card.Suit.CLUBS);
+      card2 = new Card('6',Card.Suit.DIAMONDS);
+      card3 = new Card('Q',Card.Suit.HEARTS);
+      
+      // TODO while(takeCard == true){    }
 
    }
 
@@ -137,8 +145,87 @@ class Card {
    
 }
 
+/**
+ * This class is for the Hand and deals with phase two. The class elaborates on the Card class
+ * and uses it to develop an array of objects calling on methods.
+ */
 class Hand {
+   public static int MAX_CARDS = 50;        //Constant set for class to terminate program
+   private Card[] myCards;    //An array of cards
+   private int numCards;      //The number of cards in "Hand"
    
+   /**
+    * Default Constructor for hand
+    * @param null
+    * @return default empty hand of 50 cards
+    */
+   public Hand(){
+      myCards = new Card[MAX_CARDS];
+      numCards = 0;
+   }
+   
+   /**
+    * Resets the num of cards to 0 in theory, basically setting the hand back to nothing
+    * @param null
+    * @return numCards at 0
+    */
+   public void resetHand(){
+      numCards = 0;
+   }
+   
+   /**
+    * This takes a card and adds it to the hand and checks to make sure if it is still has space.
+    * @param card
+    * @return if hand is valid
+    */
+   public boolean takeCard(Card card){
+      if(MAX_CARDS < myCards.length-1){
+         myCards[numCards].set(card.getValue(), card.getSuit());
+         numCards++;
+         return true;
+      }else return false;
+   }
+   
+   /**
+    * This gets the top card and removes it from the count
+    * @param null
+    * @return value and suit of top card
+    */
+   public Card playCard(){
+      Card nextCard = new Card(myCards[numCards].getValue(), myCards[numCards].getSuit()); //Create a temp card
+      numCards--;
+      return nextCard;
+   }
+   
+   /**
+    * NEEDS work
+    */
+   public String toString(){
+      while(numCards > 0){
+         numCards--;
+         return myCards[numCards+1].toString();
+      }
+   }
+   
+   /**
+    * Accessor for numCards
+    * @param null
+    * @return int numCards - tells you how many cards in hand
+    */
+   public int getNumCards(){
+      return numCards;
+   }
+   
+   /**
+    * Inspects the card that gets taken out
+    * @param k
+    * @return nextCard - the card inspected
+    */
+   public Card inspectCard(int k){
+      Card nextCard = new Card(myCards[k].getValue(), myCards[k].getSuit()); //Create a temp card
+      return nextCard;
+   }
+
 }
 
 class Deck {
