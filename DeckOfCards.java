@@ -15,7 +15,7 @@ public class DeckOfCards {
    
    public static void main(String[] args) {      
       /* ----- Test Card class ----- */
-      System.out.println("/* ----- Card class testing ----- */");
+      System.out.println("/* ----- Card class testing ----- /");
       Card card1 = new Card();                      // Default constructor
       Card card2 = new Card('4',Card.Suit.CLUBS);   // Other constructor
       Card card3 = new Card('Y',Card.Suit.HEARTS);  // Invalid value
@@ -27,10 +27,10 @@ public class DeckOfCards {
       System.out.println(card1.toString());
       System.out.println(card2.toString());
       System.out.println(card3.toString());
-      System.out.println("*/ ------------------------------ */");
+      System.out.println("/ ------------------------------ /");
       
       /* ----- Test Hand class ----- */
-      System.out.println("\n/* ----- Hand class testing ----- */");
+      System.out.println("\n/* ----- Hand class testing ----- /");
       // Create Cards and Hand
       card1 = new Card('1',Card.Suit.CLUBS);
       card2 = new Card('T',Card.Suit.SPADES);
@@ -68,9 +68,9 @@ public class DeckOfCards {
       // Display empty Hand
       System.out.println("\nEmpty hand:");
       System.out.println("( " + hand1.toString() + " )");
-      System.out.println("/* ------------------------------ */");
+      System.out.println("/* ------------------------------ /");
       
-      // Running Deck Test 2
+      // Running Deck Test 2 packs
       System.out.println("\nTesting Deck:\n");
       Deck testDeck = new Deck(2);
       testDeck.init(2);
@@ -79,7 +79,7 @@ public class DeckOfCards {
          System.out.print(testDeck.dealCard().toString() + " / ");
       }
       
-      // Running Shuffle Test 2
+      // Running Shuffle Test 2 packs
       System.out.println("\n\nTesting Shuffle Method:\n");
       testDeck.init(2);
       testDeck.shuffle();
@@ -88,7 +88,7 @@ public class DeckOfCards {
          System.out.print(testDeck.dealCard().toString() + " / ");
       }
       
-      // Running Deck Test 1
+      // Running Deck Test 1 packs
       System.out.println("\nTesting Deck:\n");
       Deck testDeckOne = new Deck(1);
       testDeckOne.init(1);
@@ -97,8 +97,8 @@ public class DeckOfCards {
          System.out.print(testDeckOne.dealCard().toString() + " / ");
       }
       
-      // Running Shuffle Test 1
-      System.out.println("\n\nTesting Shuffle Method:\n");
+      // Running Shuffle Test 1 packs
+      System.out.println("\n\n\nTesting Shuffle Method:\n");
       testDeckOne.init(1);
       testDeckOne.shuffle();
       
@@ -107,7 +107,7 @@ public class DeckOfCards {
       }
       
       //PHASE 4 TESTING
-      System.out.println("\n\nPhase 4 Testing:\n\n");
+      System.out.println("\n\nPhase 4 Testing:\n");
       
       int numHands = -1;
       
@@ -137,7 +137,7 @@ public class DeckOfCards {
       }        
       
       //Going again with shuffling
-      System.out.println("\nHere are our hands from a shuffled deck: ");
+      System.out.println("\n\nHere are our hands from a shuffled deck: ");
       
       testDeckTwo.init(1);
       testDeckTwo.shuffle();
@@ -188,7 +188,7 @@ class Card {
    public String toString() {
       if (errorFlag == true) {
          return "[ invalid ]";
-      } else {
+      }else {
          return value + " of " + suit;
       }
    }
@@ -379,14 +379,16 @@ class Deck {
     * generates the "MasterPack" so that we don't have to generate cards over and over again
     */
    private static void allocateMasterPack(){
-      char[] possValues = {'2','3','4','5','6','7','8','9','T','J','Q','K','A'};
-      Card.Suit[] possSuits = {Card.Suit.HEARTS, Card.Suit.CLUBS, Card.Suit.DIAMONDS, Card.Suit.SPADES};
-      int cardCount = 0;
-      
-      for (int i = 0; i < 4; i++) {         
-         for (int j = 0; j < 13; j++){
-            masterPack[cardCount] = new Card(possValues[j],possSuits[i]);
-            cardCount++;      
+      if (masterPack[0] == null){
+         char[] possValues = {'2','3','4','5','6','7','8','9','T','J','Q','K','A'};
+         Card.Suit[] possSuits = {Card.Suit.HEARTS, Card.Suit.CLUBS, Card.Suit.DIAMONDS, Card.Suit.SPADES};
+         int cardCount = 0;
+         
+         for (int i = 0; i < 4; i++) {         
+            for (int j = 0; j < 13; j++){
+               masterPack[cardCount] = new Card(possValues[j],possSuits[i]);
+               cardCount++;      
+            }
          }
       }
    }
@@ -469,3 +471,7 @@ class Deck {
    }
    
 }
+
+/*
+
+*/
