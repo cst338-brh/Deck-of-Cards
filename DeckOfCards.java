@@ -59,7 +59,7 @@ class Card {
    
    /** 
     * Provides a String representation of the Card.
-    * @return String  A String in the form of "[VALUE] of [SUIT]"
+    * @return        A String in the form of "[VALUE] of [SUIT]"
     */
    public String toString() {
       if (errorFlag == true) {
@@ -70,7 +70,7 @@ class Card {
    }
    
    /** 
-    * Mutator to update the suit and value of the Card after validating data. 
+    * Updates the suit and value of the Card after validating data. 
     * The errorFlag is set to true if the provided data is not valid.
     * @param value   a char from 1-9,T,J,Q,K,A
     * @param suit    a value from the Suit enum (CLUBS,DIAMONDS,HEARTS,SPADES)
@@ -90,7 +90,7 @@ class Card {
    }
    
    /**
-    * Accessor to get the Card's value.
+    * Gets the Card's value.
     * @return        the Card's value
     */
    public char getValue() {
@@ -98,7 +98,7 @@ class Card {
    }
    
    /**
-    * Accessor to get the Card's Suit.
+    * Gets the Card's Suit.
     * @return        the Card's Suit
     */
    public Suit getSuit() {
@@ -106,7 +106,7 @@ class Card {
    }
    
    /**
-    * Accessor to get the status of the errorFlag.
+    * Gets the status of the errorFlag.
     * @return        true if Card is invalid, otherwise false
     */
    public boolean getErrorFlag() {
@@ -114,7 +114,7 @@ class Card {
    }
    
    /**
-    * Method to compare two Card objects for equality.
+    * Compares two Card objects for equality.
     * @param card    a Card to compare to this Card
     * @return        true if the Cards have equal value and Suit, otherwise false
     */
@@ -155,28 +155,24 @@ class Hand {
    private int numCards;      //The number of cards in "Hand"
    
    /**
-    * Default Constructor for hand
-    * @param null
-    * @return default empty hand of 50 cards
+    * Default Constructor. Initializes empty Hand.
     */
    public Hand(){
+      resetHand();
+   }
+   
+   /**
+    * Empties the array of Cards and resets the card counter.
+    */
+   public void resetHand(){
       myCards = new Card[MAX_CARDS];
       numCards = 0;
    }
    
    /**
-    * Resets the num of cards to 0 in theory, basically setting the hand back to nothing
-    * @param null
-    * @return numCards at 0
-    */
-   public void resetHand(){
-      numCards = 0;
-   }
-   
-   /**
-    * This takes a card and adds it to the hand and checks to make sure if it is still has space.
-    * @param card
-    * @return if hand is valid
+    * Adds a given Card to the array if there is space.
+    * @param Card    A Card to add to the Hand
+    * @return        True if hand is valid, otherwise false
     */
    public boolean takeCard(Card card){
       if(MAX_CARDS < myCards.length-1){
@@ -187,9 +183,9 @@ class Hand {
    }
    
    /**
-    * This gets the top card and removes it from the count
-    * @param null
-    * @return value and suit of top card
+    * Gets the last Card in the array. Removes the Card from the array
+    * and decrements the counter.
+    * @return        The Card to play
     */
    public Card playCard(){
       Card nextCard = new Card(myCards[numCards].getValue(), myCards[numCards].getSuit()); //Create a temp card
@@ -208,18 +204,17 @@ class Hand {
    }
    
    /**
-    * Accessor for numCards
-    * @param null
-    * @return int numCards - tells you how many cards in hand
+    * Gets the number of Cards in the Hand
+    * @return        The number of Cards in the Hand.
     */
    public int getNumCards(){
       return numCards;
    }
    
    /**
-    * Inspects the card that gets taken out
-    * @param k
-    * @return nextCard - the card inspected
+    * Gets the Card at a specific position in the Hand.
+    * @param int     The position of the desired Card in the Hand's array
+    * @return        The Card
     */
    public Card inspectCard(int k){
       Card nextCard = new Card(myCards[k].getValue(), myCards[k].getSuit()); //Create a temp card
