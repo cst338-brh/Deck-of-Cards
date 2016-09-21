@@ -8,7 +8,7 @@
 public class DeckOfCards {
 
    public static void main(String[] args) {      
-      // Test Card class
+      /* ----- Test Card class ----- */
       System.out.println("/* ----- Card class testing ----- */");
       Card card1 = new Card();                      // Default constructor
       Card card2 = new Card('4',Card.Suit.CLUBS);   // Other constructor
@@ -23,13 +23,47 @@ public class DeckOfCards {
       System.out.println(card3.toString());
       System.out.println("*/ ------------------------------ */");
       
-      // Phase 2
+      /* ----- Test Hand class ----- */
+      System.out.println("\n/* ----- Hand class testing ----- */");
+      // Create Cards and Hand
+      card1 = new Card('1',Card.Suit.CLUBS);
+      card2 = new Card('T',Card.Suit.SPADES);
+      card3 = new Card('Q',Card.Suit.DIAMONDS);
+      Card card4 = new Card('2',Card.Suit.CLUBS);
+      Card card5 = new Card('5',Card.Suit.SPADES);
       Hand hand1 = new Hand();
-      card1 = new Card('4',Card.Suit.CLUBS);
-      card2 = new Card('6',Card.Suit.DIAMONDS);
-      card3 = new Card('Q',Card.Suit.HEARTS);
       
-      // TODO while(takeCard == true){    }
+      // Add cards to Hand until full
+      int cardCount = 0;
+      while (cardCount < Hand.MAX_CARDS) {
+         hand1.takeCard(card1);
+         hand1.takeCard(card2);
+         hand1.takeCard(card3);
+         hand1.takeCard(card4);
+         hand1.takeCard(card5);
+         cardCount++;
+      }
+
+      // Display full Hand
+      System.out.println("Full Hand:");
+      System.out.println("( " + hand1.toString() + " )");
+      
+      // Test inspectCard method
+      System.out.println("\nInspect Cards:");
+      System.out.println(hand1.inspectCard(0).toString());      // Should be valid
+      System.out.println(hand1.inspectCard(Hand.MAX_CARDS).toString());   // Should be invalid
+      
+      // Test playCard method
+      System.out.println("\nPlay all Cards:");
+      for (int i = 0; i < Hand.MAX_CARDS; i++) {
+         System.out.println("(" + i + ") Playing " + hand1.playCard().toString());
+      }
+      
+      // Display empty Hand
+      System.out.println("\nEmpty hand:");
+      System.out.println("( " + hand1.toString() + " )");
+      System.out.println("/* ------------------------------ */");
+      
 
    }
 
@@ -158,7 +192,7 @@ class Hand {
     * Default Constructor. Initializes empty Hand.
     */
    public Hand(){
-      resetHand();
+      resetHand(); //  Initializes empty hand
    }
    
    /**
@@ -172,14 +206,17 @@ class Hand {
    /**
     * Adds a given Card to the array if there is space.
     * @param Card    A Card to add to the Hand
-    * @return        True if hand is valid, otherwise false
+    * @return        True if the Card was added to the Hand, otherwise false
     */
    public boolean takeCard(Card card){
-      if(MAX_CARDS < myCards.length-1){
-         myCards[numCards].set(card.getValue(), card.getSuit());
+      if(numCards < MAX_CARDS){
+         myCards[numCards] = new Card(card.getValue(),card.getSuit());  // Creates a copy of the Card to add to the array
          numCards++;
          return true;
-      }else return false;
+      } else {
+         // The Hand is full
+         return false;
+      }
    }
    
    /**
@@ -188,8 +225,13 @@ class Hand {
     * @return        The Card to play
     */
    public Card playCard(){
-      Card nextCard = new Card(myCards[numCards].getValue(), myCards[numCards].getSuit()); //Create a temp card
+      // Create a copy of the Card to be returned
+      Card nextCard = new Card(myCards[numCards-1].getValue(), myCards[numCards-1].getSuit());
+      
+      // Remove the Card from the array and decrement the card count
+      myCards[numCards-1] = null;
       numCards--;
+      
       return nextCard;
    }
    
@@ -197,10 +239,18 @@ class Hand {
     * NEEDS work
     */
    public String toString(){
-      while(numCards > 0){
-         numCards--;
-         return myCards[numCards+1].toString();
+      String returnString = "";
+      
+      if (numCards > 0) {
+         // Get the String version of each card in the array and add to returnString
+         for(Card card : myCards) {
+            returnString += card.toString() + ", ";
+         }      
+         // Remove the last space and comma from the String for cleaner output
+         returnString = returnString.substring(0, returnString.length()-2);
       }
+      
+      return returnString;
    }
    
    /**
@@ -217,8 +267,14 @@ class Hand {
     * @return        The Card
     */
    public Card inspectCard(int k){
-      Card nextCard = new Card(myCards[k].getValue(), myCards[k].getSuit()); //Create a temp card
-      return nextCard;
+      // Return a copy of the Card if the given index is valid
+      if (k < numCards) {
+         return new Card(myCards[k].getValue(), myCards[k].getSuit());   
+      } else {
+         // Given index is invalid, generate and return an invalid card
+         return new Card('-',Card.Suit.SPADES);
+      }
+      
    }
 
 }
