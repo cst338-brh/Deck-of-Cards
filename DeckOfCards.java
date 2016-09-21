@@ -5,6 +5,9 @@
  *9/17/16
  *Module 3: Deck of Cards
  */
+
+import java.lang.Math;
+
 public class DeckOfCards {
 
    public static void main(String[] args) {      
@@ -280,5 +283,83 @@ class Hand {
 }
 
 class Deck {
+   private static Card[] masterPack = new Card[52];
+   private Card[] cards;
+   int topCard;
+   int numPacks;
+   
+   private static void allocateMasterPack(){
+      char[] possValues = {'2','3','4','5','6','7','8','9','T','J','Q','K','A'};
+      Card.Suit[] possSuits = {Card.Suit.HEARTS, Card.Suit.CLUBS, Card.Suit.DIAMONDS, Card.Suit.SPADES};
+      int cardCount = 0;
+      
+      for (int i = 0; i < 4; i++) {         
+         for (int j = 0; j < 13; j++){
+            masterPack[cardCount] = new Card(possValues[j],possSuits[i]);
+            cardCount++;      
+         }
+      }
+      
+      for (int k = 0; k < 52; k++)
+      {
+         System.out.println(masterPack[k].toString());
+      }
+   }
+   
+   public Deck(){
+      this(1);
+   }
+   
+   public Deck (int numPacks){
+      topCard = numPacks * 52;
+      this.numPacks = numPacks;
+      
+      cards = new Card[topCard];
+   }
+   
+   public void init(int numPacks){
+      allocateMasterPack();
+      int totCards = numPacks * 52;
+      
+      for (int i = 0; i < totCards; i++){
+         cards[i] = masterPack[i % 52];
+      }
+   }
+   
+   public void shuffle(){
+      for (int i = 0; i < numPacks*52; i++){
+         int randInt = (int) Math.random() * numPacks* 52;
+         {
+            Card tmpCard = cards[i];
+            cards[i] = cards[randInt];
+            cards[randInt] = tmpCard;
+         }
+      }
+   }
+   
+   public Card dealCard(){
+      Card dealtCard = new Card(cards[topCard].getValue(), cards[topCard].getSuit());
+      
+      cards[topCard] = null;
+      topCard--;
+      
+      return dealtCard;
+   }
+   
+   public int getTopCard(){
+      return topCard;
+   }
+   
+   Card inspectCard(int k){
+      Card tmpCard;
+      if (k <= topCard){
+         tmpCard = cards[k];
+      }
+      else{
+         tmpCard = new Card('X',Card.Suit.SPADES);
+      }
+      
+      return tmpCard;
+   }
    
 }
