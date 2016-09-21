@@ -67,7 +67,42 @@ public class DeckOfCards {
       System.out.println("( " + hand1.toString() + " )");
       System.out.println("/* ------------------------------ */");
       
-
+      // Running Deck Test 2
+      System.out.println("\nTesting Deck:\n");
+      Deck testDeck = new Deck(2);
+      testDeck.init(2);
+      
+      for (int i = 0; i < testDeck.getTopCard(); i++){
+         System.out.print(testDeck.dealCard().toString() + " / ");
+      }
+      
+      // Running Shuffle Test 2
+      System.out.println("\n\nTesting Shuffle Method:\n");
+      testDeck.init(2);
+      testDeck.shuffle();
+      
+      for (int i = 0; i < testDeck.getTopCard(); i++){
+         System.out.print(testDeck.dealCard().toString() + " / ");
+      }
+      
+      // Running Deck Test 1
+      System.out.println("\nTesting Deck:\n");
+      Deck testDeckOne = new Deck(1);
+      testDeckOne.init(1);
+      
+      for (int i = 0; i < testDeckOne.getTopCard(); i++){
+         System.out.print(testDeckOne.dealCard().toString() + " / ");
+      }
+      
+      // Running Shuffle Test 1
+      System.out.println("\n\nTesting Shuffle Method:\n");
+      testDeckOne.init(1);
+      testDeckOne.shuffle();
+      
+      for (int i = 0; i < testDeckOne.getTopCard(); i++){
+         System.out.print(testDeckOne.dealCard().toString() + " / ");
+      }   
+      
    }
 
 }
@@ -288,6 +323,9 @@ class Deck {
    int topCard;
    int numPacks;
    
+   /**
+    * generates the "MasterPack" so that we don't have to generate cards over and over again
+    */
    private static void allocateMasterPack(){
       char[] possValues = {'2','3','4','5','6','7','8','9','T','J','Q','K','A'};
       Card.Suit[] possSuits = {Card.Suit.HEARTS, Card.Suit.CLUBS, Card.Suit.DIAMONDS, Card.Suit.SPADES};
@@ -299,17 +337,18 @@ class Deck {
             cardCount++;      
          }
       }
-      
-      for (int k = 0; k < 52; k++)
-      {
-         System.out.println(masterPack[k].toString());
-      }
    }
    
+   /**
+    * default constructor for Deck, defaulting to 1 pack in the deck
+    */
    public Deck(){
       this(1);
    }
    
+   /**
+    * constructor for Deck, takes numPacks and generates an array of that many packs of cards
+    */
    public Deck (int numPacks){
       topCard = numPacks * 52;
       this.numPacks = numPacks;
@@ -317,6 +356,9 @@ class Deck {
       cards = new Card[topCard];
    }
    
+   /**
+    * runs the deck from end to end and fills it with that card of the masterPack
+    */
    public void init(int numPacks){
       allocateMasterPack();
       int totCards = numPacks * 52;
@@ -326,30 +368,42 @@ class Deck {
       }
    }
    
+   /**
+    * uses random library to shuffle the deck from end to end
+    */
    public void shuffle(){
       for (int i = 0; i < numPacks*52; i++){
-         int randInt = (int) Math.random() * numPacks* 52;
-         {
-            Card tmpCard = cards[i];
-            cards[i] = cards[randInt];
-            cards[randInt] = tmpCard;
-         }
+         double randDouble = Math.random() * numPacks * 52;
+         int randInt = (int) randDouble;
+         
+         Card tmpCard = cards[i];
+         cards[i] = cards[randInt];
+         cards[randInt] = tmpCard;
       }
    }
    
+   /**
+    * Deals the car off the top of the deck, erasing it from the deck
+    */
    public Card dealCard(){
-      Card dealtCard = new Card(cards[topCard].getValue(), cards[topCard].getSuit());
+      Card dealtCard = new Card(cards[topCard-1].getValue(), cards[topCard-1].getSuit());
       
-      cards[topCard] = null;
+      cards[topCard-1] = null;
       topCard--;
       
       return dealtCard;
    }
    
+   /**
+    * accessor for topCard
+    */
    public int getTopCard(){
       return topCard;
    }
    
+   /**
+    * accessor for specific card in cards array
+    */
    Card inspectCard(int k){
       Card tmpCard;
       if (k <= topCard){
