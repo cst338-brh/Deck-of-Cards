@@ -128,11 +128,27 @@ public class DeckOfCards {
       testDeckTwo.init(1);
      
       for (int i = 0; i < 52; i++){
-         System.out.print((i % numHands) + " " + numHands + "\n");
          testHands[i % numHands].takeCard(testDeckTwo.dealCard());
       }
       
-      System.out.println(testHands[0].toString());
+      for (int j = 0; j < numHands; j++){
+         System.out.print("\nHand - ");
+         System.out.print(testHands[j].toString());
+      }        
+      
+      //Going again with shuffling
+      System.out.println("\nHere are our hands from a shuffled deck: ");
+      
+      testDeckTwo.init(1);
+      testDeckTwo.shuffle();
+      
+      for (int i = 0; i < numHands; i++){
+         testHands[i].resetHand();
+      }
+      
+      for (int m = 0; m < 52; m++){
+         testHands[m % numHands].takeCard(testDeckTwo.dealCard());
+      }
       
       for (int j = 0; j < numHands; j++){
          System.out.print("\nHand - ");
@@ -317,9 +333,8 @@ class Hand {
       
       if (numCards > 0) {
          // Get the String version of each card in the array and add to returnString
-         for(Card card : myCards) {
-            System.out.print(card.toString());
-            returnString += card.toString() + ", ";
+         for(int i = 0; i < numCards; i++) {
+            returnString += myCards[i].toString() + ", ";
          }      
          // Remove the last space and comma from the String for cleaner output
          returnString = returnString.substring(0, returnString.length()-2);
@@ -398,9 +413,9 @@ class Deck {
     */
    public void init(int numPacks){
       allocateMasterPack();
-      int totCards = numPacks * 52;
+      topCard = numPacks * 52;
       
-      for (int i = 0; i < totCards; i++){
+      for (int i = 0; i < this.getTopCard(); i++){
          cards[i] = masterPack[i % 52];
       }
    }
