@@ -6,10 +6,13 @@
  *Module 3: Deck of Cards
  */
 
+import java.util.*;
 import java.lang.Math;
 
 public class DeckOfCards {
 
+   private static Scanner input = new Scanner(System.in);
+   
    public static void main(String[] args) {      
       /* ----- Test Card class ----- */
       System.out.println("/* ----- Card class testing ----- */");
@@ -101,7 +104,40 @@ public class DeckOfCards {
       
       for (int i = 0; i < testDeckOne.getTopCard(); i++){
          System.out.print(testDeckOne.dealCard().toString() + " / ");
-      }   
+      }
+      
+      //PHASE 4 TESTING
+      System.out.println("\n\nPhase 4 Testing:\n\n");
+      
+      int numHands = -1;
+      
+      do {
+         System.out.print("How many hands (1-10 Please): ");
+         numHands = input.nextInt();
+      } while (numHands < 1 || numHands > 10);
+      
+      System.out.println("\nHere are our hands from an unsorted deck: ");
+      
+      Hand[] testHands = new Hand[numHands];
+      
+      for (int k = 0; k < numHands; k++){
+         testHands[k] = new Hand();
+      }
+      
+      Deck testDeckTwo = new Deck(1);
+      testDeckTwo.init(1);
+     
+      for (int i = 0; i < 52; i++){
+         System.out.print((i % numHands) + " " + numHands + "\n");
+         testHands[i % numHands].takeCard(testDeckTwo.dealCard());
+      }
+      
+      System.out.println(testHands[0].toString());
+      
+      for (int j = 0; j < numHands; j++){
+         System.out.print("\nHand - ");
+         System.out.print(testHands[j].toString());
+      }        
       
    }
 
@@ -282,6 +318,7 @@ class Hand {
       if (numCards > 0) {
          // Get the String version of each card in the array and add to returnString
          for(Card card : myCards) {
+            System.out.print(card.toString());
             returnString += card.toString() + ", ";
          }      
          // Remove the last space and comma from the String for cleaner output
