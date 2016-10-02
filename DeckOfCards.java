@@ -274,7 +274,7 @@ class Card {
  * and uses it to develop an array of objects calling on methods.
  */
 class Hand {
-   public static int MAX_CARDS = 50;        //Constant set for class to terminate program
+   public static final int MAX_CARDS = 50;        //Constant set for class to terminate program
    private Card[] myCards;    //An array of cards
    private int numCards;      //The number of cards in "Hand"
    
@@ -440,18 +440,23 @@ class Deck {
     * Deals the car off the top of the deck, erasing it from the deck
     */
    public Card dealCard(){
-      Card dealtCard = new Card(cards[topCard-1].getValue(), cards[topCard-1].getSuit());
-      
-      cards[topCard-1] = null;
-      topCard--;
-      
-      return dealtCard;
+      if (cards.length > 0) {
+         Card dealtCard = new Card(cards[topCard-1].getValue(), cards[topCard-1].getSuit());
+         
+         cards[topCard-1] = null;
+         topCard--;
+         
+         return dealtCard;
+      } else {
+         // The deck is empty, return an invalid card
+         return new Card('0',Card.Suit.SPADES);
+      }      
    }
    
    /**
     * accessor for topCard
     */
-   public int getTopCard(){
+   public int getTopCard() {
       return topCard;
    }
    
@@ -471,7 +476,3 @@ class Deck {
    }
    
 }
-
-/*
-
-*/
